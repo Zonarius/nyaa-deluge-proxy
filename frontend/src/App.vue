@@ -1,28 +1,46 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <hello-world/>
-  </div>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Nyaa.si
+      </h1>
+      <tabs>
+        <tab-pane label="Download">
+          <search-bar></search-bar>
+          <torrent-table></torrent-table>
+        </tab-pane>
+        <tab-pane label="Config">
+          <config></config>
+        </tab-pane>
+      </tabs>
+    </div>
+  </section>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import SearchBar from './components/SearchBar'
+import TorrentTable from './components/TorrentTable'
+import Tabs from './components/Tabs'
+import TabPane from './components/TabPane'
+import Config from './components/Config'
+import * as api from './api'
 
 export default {
   name: 'app',
+  created() {
+    api.loadConfig()
+  },
   components: {
-    HelloWorld
+    SearchBar,
+    TorrentTable,
+    Tabs,
+    TabPane,
+    Config
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import '~bulma/css/bulma.css';
+@import '~font-awesome/css/font-awesome.css';
 </style>

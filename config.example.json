@@ -1,0 +1,12 @@
+{
+  "deluge": {
+    "url": "https://your-deluge-server/json",
+    "password": "your-deluge-password"
+  },
+  "regex": [
+    "\\[.*?\\](.*?) S(\\d+) - \\d+",
+    "\\[.*?\\](.*?) - \\d+",
+    "^\\[.*?\\] (.*) \\(\\d+\\-\\d+\\)",
+    "^\\[.*?\\] (.*) - Episode \\d+"
+  ]
+}
