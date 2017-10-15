@@ -40,4 +40,6 @@ app.get('/api/reload', async (req, res) => {
 
 app.use(express.static(Path.join(__dirname, '..', 'frontend', 'dist')));
 
-app.listen(8081);
+app.listen(8080);
+
+process.on('SIGTERM', () => process.exit(0));
