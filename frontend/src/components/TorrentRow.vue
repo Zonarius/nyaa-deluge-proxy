@@ -48,7 +48,7 @@ export default {
     add: async function() {
       if (this.downloadState === 'initial') {
         this.downloadState = 'loading'
-        await addTorrent(this.id)
+        await addTorrent(this.id, this.target)
         this.downloadState = 'finished'
       }
     }
