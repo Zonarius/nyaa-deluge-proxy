@@ -1,12 +1,9 @@
 {
-    "env": {
-        "es6": true,
-        "node": true
-    },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "node"
+    ],
+    "extends": ["eslint:recommended", "plugin:node/recommended"],
     "parserOptions": {
-        "ecmaVersion": 8,
-        "sourceType": "module",
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true
         }
@@ -16,6 +13,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": "off"
     }
 }

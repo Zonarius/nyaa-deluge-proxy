@@ -4,6 +4,7 @@ const config = require('./config').config;
 const deluge = Deluge(config.deluge.url, config.deluge.password);
 
 function addNyaaTorrent(id, path) {
+  console.log(`Downloading torrent ${id} to ${path}`);
   const torrentUrl = `${config.nyaaUrl}/download/${id}.torrent`;
   return deluge.add(torrentUrl, path);
 }
