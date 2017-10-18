@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Zonarius/nyaa-deluge-proxy#readme",
   "dependencies": {
-    "deluge-promise": "^1.7.1-0",
+    "deluge-promise": "^1.7.1",
     "express": "^4.16.2",
     "fs-extra": "^4.0.2",
     "request": "^2.83.0",
