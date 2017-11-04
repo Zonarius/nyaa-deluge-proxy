@@ -5,6 +5,7 @@ const config = require('./config');
 const deluge = require('./deluge');
 
 const app = express();
+const port = 8080
 
 app.get('/api/search', async (req, res) => {
   const torrents = await nyaa.loadTorrents(req.query.query);
@@ -40,6 +41,8 @@ app.get('/api/reload', async (req, res) => {
 
 app.use(express.static(Path.join(__dirname, '..', 'frontend', 'dist')));
 
-const server = app.listen(8080);
+const server = app.listen(port, () => {
+  console.log(`Listening on ${port}`)
+});
 
 process.on('SIGTERM', () => server.close());
