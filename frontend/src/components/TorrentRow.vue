@@ -8,7 +8,7 @@
     <td>{{name}}</td>
     <td>{{target}}</td>
     <td>{{size}}</td>
-    <td>{{date}}</td>
+    <td>{{date | moment("YYYY-MM-DD HH:mm")}}</td>
     <td class="seeder">{{seedCount}}</td>
     <td class="leecher">{{leechCount}}</td>
   </tr>
