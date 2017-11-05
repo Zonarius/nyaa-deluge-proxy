@@ -29,7 +29,8 @@ import * as api from './api'
 
 export default {
   name: 'app',
-  created() {
+  async created() {
+    await api.loadGoogleApi()
     if (this.loggedIn) {
       api.loadConfig()
     }

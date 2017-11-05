@@ -1,35 +1,35 @@
 <template>
   <div>
-    <g-signin-button
-      :params="googleSignInParams"
-      @success="onSignInSuccess"
-      @error="onSignInError">
-      Sign in with Google
-    </g-signin-button>
-    <div class="error" v-show="errorMessage">
+    <div id="loginButton"></div>
+    <div class="error">
       {{errorMessage}}
     </div>
   </div>
 </template>
 
 <script>
-import { loggedIn } from '../api'
+import { login, loggedIn } from '../api'
 
 export default {
   data() {
     return {
-      googleSignInParams: {
-        client_id: '1094098933377-h2er2a2nkep72q9g1jqto7n9qi20t18o.apps.googleusercontent.com'
-      },
       errorMessage: ''
     }
   },
+  subscriptions() {
+    return {
+      googleApi: login
+        .filter(it => !it.loggedIn && it.google.loaded)
+        .take(1)
+        .do(this.loadButton)
+    }
+  },
   methods: {
-    onSignInSuccess(user) {
-      loggedIn(user)
-    },
-    onSignInError(error) {
-      this.errorMessage = error.toString()
+    loadButton() {
+      window.gapi.signin2.render('loginButton', {
+        onsuccess: loggedIn,
+        onfailure: err => { this.errorMessage = err.toString() }
+      })
     }
   }
 }

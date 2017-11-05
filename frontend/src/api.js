@@ -1,14 +1,18 @@
 import * as axios from 'axios'
 import * as Rx from 'rxjs/Rx'
 
-let api = axios.create({
+let api = axios.default.create({
   baseURL: '/api'
 })
 
-export const torrents = new Rx.BehaviorSubject()
-export const config = new Rx.BehaviorSubject()
+export const googleClientID = '1094098933377-h2er2a2nkep72q9g1jqto7n9qi20t18o.apps.googleusercontent.com'
+export const torrents = new Rx.BehaviorSubject(undefined)
+export const config = new Rx.BehaviorSubject(undefined)
 export const login = new Rx.BehaviorSubject({
-  loggedIn: false
+  loggedIn: false,
+  google: {
+    loaded: false
+  }
 })
 
 export async function addTorrent(id, path) {
@@ -19,10 +23,10 @@ export async function addTorrent(id, path) {
   return response.data
 }
 
-let searchCancelSource = axios.CancelToken.source()
+let searchCancelSource = axios.default.CancelToken.source()
 export async function search(query) {
   searchCancelSource.cancel()
-  searchCancelSource = axios.CancelToken.source()
+  searchCancelSource = axios.default.CancelToken.source()
   try {
     let response = await api.get(`/search`, {
       params: { query },
@@ -33,7 +37,7 @@ export async function search(query) {
     torrents.next(response)
     return response
   } catch (error) {
-    if (!(error instanceof axios.Cancel)) {
+    if (!(error instanceof axios.default.Cancel)) {
       throw error
     }
   }
@@ -51,29 +55,57 @@ export async function loadConfig() {
 }
 
 export async function loggedIn(user) {
-  const token = user.getAuthResponse().id_token
-
-  const response = await api.get(`/login`, {
-    headers: {
-      Authorization: token
+  login.next({
+    loggedIn: false,
+    google: {
+      loaded: true,
+      user: user.isSignedIn() ? user : undefined
     }
   })
+}
 
-  if (response.data.loggedIn) {
-    api = axios.create({
-      baseURL: '/api',
+login
+  .filter(it => it.google.user && !it.loggedIn)
+  .subscribe(async info => {
+    const token = info.google.user.getAuthResponse().id_token
+
+    const response = await api.get(`/login`, {
       headers: {
         Authorization: token
       }
     })
-    loadConfig()
+
+    if (response.data.loggedIn) {
+      api = axios.default.create({
+        baseURL: '/api',
+        headers: {
+          Authorization: token
+        }
+      })
+      loadConfig()
+    }
     login.next({
-      loggedIn: true,
-      user
+      ...info,
+      loggedIn: response.data.loggedIn
     })
-  } else {
-    login.next({
-      loggedIn: false
-    })
-  }
+  })
+
+export async function loadGoogleApi() {
+  return new Promise((resolve, reject) => {
+    const el = document.createElement('script')
+    el.setAttribute('src', 'https://apis.google.com/js/platform.js')
+    el.setAttribute('async', '')
+    el.onload = () => {
+      window.gapi.load('client:auth2', () => {
+        window.gapi.auth2.init({
+          client_id: googleClientID
+        }).then(auth => {
+          loggedIn(auth.currentUser.get())
+          resolve()
+        }, reject)
+      })
+    }
+    el.onerror = reject
+    document.head.appendChild(el)
+  })
 }
