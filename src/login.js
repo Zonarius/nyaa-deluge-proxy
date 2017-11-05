@@ -6,7 +6,7 @@ const auth = new GoogleAuth;
 const client = new auth.OAuth2(config.config.auth.google.clientId, '', '');
 const app = express();
 
-app.use((req, res, next) => {
+app.use('/api*', (req, res, next) => {
   const token = req.header('Authorization');
   if (!config.config.auth.google) {
     next();
