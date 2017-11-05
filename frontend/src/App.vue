@@ -4,7 +4,8 @@
       <h1 class="title">
         Nyaa.si
       </h1>
-      <tabs>
+      <Login v-if="!loggedIn"></Login>
+      <tabs v-else>
         <tab-pane label="Download">
           <search-bar></search-bar>
           <torrent-table></torrent-table>
@@ -23,19 +24,28 @@ import TorrentTable from './components/TorrentTable'
 import Tabs from './components/Tabs'
 import TabPane from './components/TabPane'
 import Config from './components/Config'
+import Login from './components/Login'
 import * as api from './api'
 
 export default {
   name: 'app',
   created() {
-    api.loadConfig()
+    if (this.loggedIn) {
+      api.loadConfig()
+    }
   },
   components: {
     SearchBar,
     TorrentTable,
     Tabs,
     TabPane,
-    Config
+    Config,
+    Login
+  },
+  subscriptions() {
+    return {
+      loggedIn: api.login.pluck('loggedIn')
+    }
   }
 }
 </script>

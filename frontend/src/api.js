@@ -1,12 +1,15 @@
 import * as axios from 'axios'
 import * as Rx from 'rxjs/Rx'
 
-const api = axios.create({
+let api = axios.create({
   baseURL: '/api'
 })
 
 export const torrents = new Rx.BehaviorSubject()
 export const config = new Rx.BehaviorSubject()
+export const login = new Rx.BehaviorSubject({
+  loggedIn: false
+})
 
 export async function addTorrent(id, path) {
   const response = await api.post(`/add/${id}`, undefined, {
@@ -45,4 +48,32 @@ export async function loadConfig() {
   const response = await api.get(`/config`)
   config.next(response.data)
   return response.data
+}
+
+export async function loggedIn(user) {
+  const token = user.getAuthResponse().id_token
+
+  const response = await api.get(`/login`, {
+    headers: {
+      Authorization: token
+    }
+  })
+
+  if (response.data.loggedIn) {
+    api = axios.create({
+      baseURL: '/api',
+      headers: {
+        Authorization: token
+      }
+    })
+    loadConfig()
+    login.next({
+      loggedIn: true,
+      user
+    })
+  } else {
+    login.next({
+      loggedIn: false
+    })
+  }
 }

@@ -8,5 +8,13 @@
     "\\[.*?\\](.*?) - \\d+",
     "^\\[.*?\\] (.*) \\(\\d+\\-\\d+\\)",
     "^\\[.*?\\] (.*) - Episode \\d+"
-  ]
+  ],
+  "auth": {
+    "google": {
+      "clientID": "Your app client ID",
+      "allowedEmails": [
+        "allowedEmail"
+      ]
+    }
+  }
 }

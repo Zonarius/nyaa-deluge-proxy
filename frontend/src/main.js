@@ -5,8 +5,11 @@ import App from './App'
 import VueRx from 'vue-rx'
 import Rx from 'rxjs/Rx'
 import vueMoment from 'vue-moment'
+import GSignInButton from 'vue-google-signin-button'
+
 Vue.config.productionTip = false
 
+Vue.use(GSignInButton)
 Vue.use(VueRx, Rx)
 Vue.use(vueMoment)
 /* eslint-disable no-new */

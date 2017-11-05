@@ -1,11 +1,15 @@
 const Path = require('path');
 const express = require('express');
+
 const nyaa = require('./nyaa');
 const config = require('./config');
 const deluge = require('./deluge');
+const login = require('./login');
 
 const app = express();
 const port = 8080
+
+app.use(login);
 
 app.get('/api/search', async (req, res) => {
   const torrents = await nyaa.loadTorrents(req.query.query);
