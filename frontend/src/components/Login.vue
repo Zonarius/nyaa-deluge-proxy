@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { login, loggedIn } from '../api'
+import { login } from '../api'
 
 export default {
   data() {
@@ -27,7 +27,6 @@ export default {
   methods: {
     loadButton() {
       window.gapi.signin2.render('loginButton', {
-        onsuccess: loggedIn,
         onfailure: err => { this.errorMessage = err.toString() }
       })
     }

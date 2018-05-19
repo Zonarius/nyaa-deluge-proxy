@@ -25,6 +25,7 @@ export async function addTorrent(id, path) {
 
 let searchCancelSource = axios.default.CancelToken.source()
 export async function search(query) {
+  console.log('searching really now')
   searchCancelSource.cancel()
   searchCancelSource = axios.default.CancelToken.source()
   try {
@@ -55,18 +56,22 @@ export async function loadConfig() {
 }
 
 export async function loggedIn(user) {
-  login.next({
-    loggedIn: false,
-    google: {
-      loaded: true,
-      user: user.isSignedIn() ? user : undefined
-    }
+  login.take(1).subscribe(info => {
+    login.next({
+      loggedIn: info.loggedIn,
+      google: {
+        loaded: true,
+        user: user.isSignedIn() ? user : undefined
+      }
+    })
   })
 }
 
 login
+  .do(v => console.log('logged in', v))
   .filter(it => it.google.user && !it.loggedIn)
   .subscribe(async info => {
+    console.log('bam', info)
     const token = info.google.user.getAuthResponse().id_token
 
     const response = await api.get(`/login`, {
