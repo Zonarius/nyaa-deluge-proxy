@@ -1,4 +1,6 @@
-FROM node:8-alpine
+FROM node:10-alpine
+
+ENV NODE_ENV=production
 
 # Needed for NPM install
 RUN apk --no-cache add git
@@ -7,9 +9,9 @@ COPY "." "/app"
 
 # Build express server & frontend
 RUN cd /app && \
-    npm install --production && \
+    npm ci && \
     cd /app/frontend && \
-    npm install && \
+    npm ci && \
     npm run build && \
     rm -rf node_modules && \
     apk del git
