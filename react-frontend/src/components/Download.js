@@ -14,12 +14,12 @@ export default class Download extends React.Component {
   download = async () => {
     this.setState({ loading: true })
     try {
-      await api.addMagnet(this.props.url)
+      await api.addMagnet(this.props.url, this.props.path)
       this.setState({
         loading: false,
         status: "done"
       })
-    } finally {
+    } catch (err) {
       this.setState({
         loading: false,
         status: "error"
