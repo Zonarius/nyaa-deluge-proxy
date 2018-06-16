@@ -9,7 +9,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch'
 import { Button } from 'bloomer/lib/elements/Button';
 
-import api from '../api';
+import * as api from '../api';
 
 export default class Search extends React.Component {
   state = {
@@ -23,9 +23,7 @@ export default class Search extends React.Component {
     if (!this.state.loading) {
       this.setState({ loading: true })
       try {
-        const { data } = await api.get('/search', {
-          params: { query: this.state.query }
-        })
+        const data = await api.search(this.state.query)
         if (typeof this.props.onSearch === 'function') {
           this.props.onSearch(data)
         }

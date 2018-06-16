@@ -14,3 +14,11 @@
 .torrents img {
   vertical-align: middle;
 }
+
+.trusted {
+  background-color: #d0e9c6;
+}
+
+.remake {
+  background-color: #ebcccc;
+}

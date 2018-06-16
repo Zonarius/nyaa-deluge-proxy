@@ -3,7 +3,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faDownload from '@fortawesome/fontawesome-free-solid/faDownload'
 import faCheck from '@fortawesome/fontawesome-free-solid/faCheck'
 import { Button } from 'bloomer/lib/elements/Button';
-import api from '../api';
+import * as api from '../api';
 
 export default class Download extends React.Component {
   state = {
@@ -14,11 +14,7 @@ export default class Download extends React.Component {
   download = async () => {
     this.setState({ loading: true })
     try {
-      await api.post('/addMagnet', {
-        data: {
-          url: this.props.url
-        }
-      })
+      await api.addMagnet(this.props.url)
       this.setState({
         loading: false,
         status: "done"
