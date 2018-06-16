@@ -1,0 +1,16 @@
+.seeder {
+  color: green;
+}
+
+.leecher {
+  color: red;
+}
+
+.torrents td {
+  vertical-align: middle;
+  padding: 4px;
+}
+
+.torrents img {
+  vertical-align: middle;
+}

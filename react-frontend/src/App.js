@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container } from 'bloomer/lib/layout/Container';
 import { Title } from 'bloomer/lib/elements/Title';
 import Search from './Search';
 import Torrents from './Torrents';
 import { Section } from 'bloomer/lib/layout/Section';
+import { torrent } from './mockdata';
 
-export default class App extends Component {
+export default class App extends React.Component {
   state = {}
   render() {
     return (
@@ -13,7 +14,7 @@ export default class App extends Component {
         <Container>
           <Title>Nyaa.si</Title>
           <Search onSearch={torrents => this.setState({ torrents })} />
-          <Torrents data={this.state.torrents} />
+          <Torrents data={torrent} />
         </Container>
       </Section>
     )

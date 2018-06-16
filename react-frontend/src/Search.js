@@ -9,12 +9,30 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch'
 import { Button } from 'bloomer/lib/elements/Button';
 
-export default class Search extends React.Component {
-  state = { query: localStorage.query || "" }
+import api from './api';
 
-  search = ev => {
+export default class Search extends React.Component {
+  state = {
+    query: localStorage.query || "",
+    loading: false
+  }
+
+  search = async ev => {
     ev.preventDefault()
-    console.log(ev)
+
+    if (!this.state.loading) {
+      this.setState({ loading: true })
+      try {
+        const { data } = await api.get('/search', {
+          params: { query: this.state.query }
+        })
+        if (typeof this.props.onSearch === 'function') {
+          this.props.onSearch(data)
+        }
+      } finally {
+        this.setState({ loading: false })
+      }
+    }
   }
 
   save = ev => {
@@ -27,13 +45,13 @@ export default class Search extends React.Component {
       <form onSubmit={this.search}>
         <Field hasAddons>
           <Control hasIcons>
-            <Input type="text" placeholder="Search" onChange={this.save} value={this.state.query} />
+            <Input name="q" type="text" placeholder="Search" onChange={this.save} value={this.state.query} />
             <Icon isSize="small" isAlign="left">
               <FontAwesomeIcon icon={faSearch} />
             </Icon>
           </Control>
           <Control>
-            <Button type="submit" isColor="info">Search</Button>
+            <Button type="submit" isColor="info" isLoading={this.state.loading}>Search</Button>
           </Control>
         </Field>
       </form>
