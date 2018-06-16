@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container } from 'bloomer/lib/layout/Container';
+import { Title } from 'bloomer/lib/elements/Title';
+import Search from './Search';
+import Torrents from './Torrents';
+import { Section } from 'bloomer/lib/layout/Section';
 
-class App extends Component {
+export default class App extends Component {
+  state = {}
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+      <Section>
+        <Container>
+          <Title>Nyaa.si</Title>
+          <Search onSearch={torrents => this.setState({ torrents })} />
+          <Torrents data={this.state.torrents} />
+        </Container>
+      </Section>
+    )
   }
 }
-
-export default App;
