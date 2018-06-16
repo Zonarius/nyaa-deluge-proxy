@@ -63,7 +63,7 @@ app.get('/api/reload', async (req, res) => {
   res.end();
 });
 
-app.use(express.static(Path.join(__dirname, '..', 'frontend', 'dist')));
+app.use(express.static(Path.join(__dirname, '..', 'react-frontend', 'build')));
 
 const server = app.listen(port, () => {
   console.log(`Listening on ${port}`)

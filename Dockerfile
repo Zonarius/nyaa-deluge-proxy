@@ -10,7 +10,7 @@ COPY "." "/app"
 # Build express server & frontend
 RUN cd /app && \
     npm ci && \
-    cd /app/frontend && \
+    cd /app/react-frontend && \
     npm ci && \
     npm run build && \
     rm -rf node_modules && \
