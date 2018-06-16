@@ -4,17 +4,18 @@ import { Title } from 'bloomer/lib/elements/Title';
 import Search from './Search';
 import Torrents from './Torrents';
 import { Section } from 'bloomer/lib/layout/Section';
-import { torrent } from '../mockdata';
 
 export default class LoggedInApp extends React.Component {
-  state = {}
+  state = {
+    torrents: []
+  }
   render() {
     return (
       <Section>
         <Container>
           <Title>Nyaa.si</Title>
           <Search onSearch={torrents => this.setState({ torrents })} />
-          <Torrents data={torrent} />
+          <Torrents data={this.state.torrents} />
         </Container>
       </Section>
     )

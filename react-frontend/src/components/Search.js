@@ -17,8 +17,14 @@ export default class Search extends React.Component {
     loading: false
   }
 
+  componentDidMount() {
+    this.search();
+  }
+
   search = async ev => {
-    ev.preventDefault()
+    if (ev) {
+      ev.preventDefault()
+    }
 
     if (!this.state.loading) {
       this.setState({ loading: true })

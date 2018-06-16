@@ -14,9 +14,7 @@ export function login(tokenId) {
 }
 
 export function addMagnet(url) {
-  return api.post('/addMagnet', {
-    data: { url }
-  })
+  return api.post('/addMagnet', { url })
 }
 
 export function search(query) {
