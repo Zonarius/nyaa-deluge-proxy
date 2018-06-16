@@ -9,7 +9,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faSearch from '@fortawesome/fontawesome-free-solid/faSearch'
 import { Button } from 'bloomer/lib/elements/Button';
 
-import api from './api';
+import api from '../api';
 
 export default class Search extends React.Component {
   state = {

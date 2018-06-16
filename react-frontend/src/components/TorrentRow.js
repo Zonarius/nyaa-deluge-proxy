@@ -1,5 +1,5 @@
 import React from 'react';
-import icons from './icons';
+import icons from '../icons';
 import classNames from 'classnames';
 import Download from './Download';
 

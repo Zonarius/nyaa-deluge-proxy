@@ -4,7 +4,7 @@ import { Title } from 'bloomer/lib/elements/Title';
 import Search from './Search';
 import Torrents from './Torrents';
 import { Section } from 'bloomer/lib/layout/Section';
-import { torrent } from './mockdata';
+import { torrent } from '../mockdata';
 
 export default class App extends React.Component {
   state = {}
