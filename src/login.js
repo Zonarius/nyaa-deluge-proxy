@@ -15,19 +15,19 @@ app.use('/api*', (req, res, next) => {
     res.sendStatus(403);
     return;
   }
-  console.time('Verifying');
+  // console.time('Verifying');
   client.verifyIdToken(
     token,
     config.config.auth.google.clientId,
     function(error, login) {
-      console.timeEnd('Verifying');
+      // console.timeEnd('Verifying');
       if (error) {
-        console.log("Invalid login!", login.getPayload());
+        console.log("Invalid login!", login);
         res.sendStatus(403);
         return;
       }
       const payload = login.getPayload();
-      console.log("Login success", payload);
+      // console.log("Login success", payload);
 
       const allowedEmails = config.config.auth.google.allowedEmails;
       if (allowedEmails) {
@@ -35,7 +35,7 @@ app.use('/api*', (req, res, next) => {
           res.sendStatus(403);
           return;
         }
-        console.log("User is one of the allowed users");
+        // console.log("User is one of the allowed users");
       }
       next();
     });  

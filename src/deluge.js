@@ -13,6 +13,16 @@ function addNyaaTorrent(id, path) {
   });
 }
 
+function addNyaaMagnet(magnetUrl, path) {
+  console.log(`Downloading magnet torrent to ${path}`);
+  return deluge.add(magnetUrl, {
+    download_location: '/data',
+    move_completed: true,
+    move_completed_path: path
+  });
+}
+
 module.exports = {
-  addNyaaTorrent
+  addNyaaTorrent,
+  addNyaaMagnet
 };

@@ -1,5 +1,6 @@
 const Path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser')
 
 const nyaa = require('./nyaa');
 const config = require('./config');
@@ -11,14 +12,33 @@ const port = 8080
 
 app.use(login);
 
+app.use(bodyParser.json())
+
 app.get('/api/search', async (req, res) => {
-  const torrents = await nyaa.loadTorrents(req.query.query);
-  res.end(JSON.stringify(torrents, undefined, 2));
+  try {
+    const torrents = await nyaa.loadTorrents(req.query.query);
+    res.end(JSON.stringify(torrents, undefined, 2));
+  } catch (err) {
+    console.error(err);
+    res.status(500);
+    res.end(JSON.stringify(err, undefined, 2))
+  }
 });
 
 app.post('/api/add/:id', async (req, res) => {
   await deluge.addNyaaTorrent(req.params.id, req.query.path);
   res.end();
+});
+
+app.post('/api/addMagnet', async (req, res) => {
+  try {
+    await deluge.addNyaaMagnet(req.body.url, req.body.path);
+    res.end();
+  } catch (err) {
+    console.error(err);
+    res.status(500);
+    res.end(JSON.stringify(err, undefined, 2))
+  }
 });
 
 app.get('/api/config', (req, res) => {
